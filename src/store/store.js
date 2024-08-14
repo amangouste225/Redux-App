@@ -9,3 +9,5 @@ export default configureStore({
 });
 
 export * from "./thunks/fetchUser";
+export * from "./thunks/addUser";
+export * from "./thunks/removeUser";

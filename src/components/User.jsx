@@ -1,31 +1,31 @@
-export default function User() {
-  return (
-    <li className={`border-2 border-black flex justify-between flex-col`}>
-      <div
-        className={`flex justify-between items-center w-full p-3  border-black`}
-      >
-        <div className="flex items-center gap-2">
-          <span className="cursor-pointer flex justify-center items-center w-6 h-6 font-bold bg-red-600 text-white rounded-full">
-            X
-          </span>
-        </div>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth="1.5"
-          stroke="currentColor"
-          className={`size-6 `}
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="m19.5 8.25-7.5 7.5-7.5-7.5"
-          />
-        </svg>
-      </div>
+import { IoIosArrowDown } from "react-icons/io";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { removeUser } from "../store/store";
+import { useThunk } from "../hooks/use-thunks";
+import AddBtn from "./AddBtn";
 
-      <div className="p-3"></div>
+export default function User({ user }) {
+  const { name, id } = user;
+
+  const [doRemoveUser, isLoading, error] = useThunk(removeUser);
+
+  const handleDelete = () => {
+    doRemoveUser(user);
+  };
+
+  return (
+    <li className="mb-2 border rounded">
+      <div className="flex p-2 justify-between items-center cursor-pointer">
+        <div className="flex items-center gap-2">
+          <AddBtn loading={isLoading} onclick={handleDelete}>
+            <RiDeleteBin6Line />
+          </AddBtn>
+
+          {error && <div>Error deleting user.</div>}
+          {name}
+        </div>
+        <IoIosArrowDown />
+      </div>
     </li>
   );
 }

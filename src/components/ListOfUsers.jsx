@@ -1,13 +1,12 @@
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
-import { fetchUsers } from "../store/store";
-import { RiDeleteBin6Line } from "react-icons/ri";
-import { IoIosArrowDown } from "react-icons/io";
 import Skeleton from "react-loading-skeleton";
-import { removeUser } from "../store/thunks/removeUser";
+
 import AddBtn from "./AddBtn";
 import { addUser } from "../store/thunks/addUser";
 import { useThunk } from "../hooks/use-thunks";
+import User from "./User";
+import { fetchUsers } from "../store/store";
+import { useSelector } from "react-redux";
 
 export default function ListOfUsers() {
   const [doFetchUsers, isLoadingUsers, loadingUsersError] =
@@ -32,19 +31,7 @@ export default function ListOfUsers() {
   } else if (loadingUsersError) {
     content = <div> Error fetching data...</div>;
   } else {
-    content = data.map((user) => {
-      return (
-        <li key={user.id} className="mb-2 border rounded">
-          <div className="flex p-2 justify-between items-center cursor-pointer">
-            <div className="flex items-center gap-2">
-              <RiDeleteBin6Line onClick={() => removeUser(user.id)} />
-              {user.name}
-            </div>
-            <IoIosArrowDown />
-          </div>
-        </li>
-      );
-    });
+    content = data.map((user) => <User key={user.id} user={user} />);
   }
 
   return (
@@ -52,7 +39,7 @@ export default function ListOfUsers() {
       <div className="flex items-center justify-between">
         <h2 className="font-bold">List of Users</h2>
 
-        <AddBtn loading={isCreatingUser} onclick={handleAddUser}>
+        <AddBtn loading={isCreatingUser} type="AddUser" onclick={handleAddUser}>
           + Add User
         </AddBtn>
 
