@@ -1,6 +1,4 @@
-import AlbumList from "./AlbumList";
-
-export default function User({ user, index }) {
+export default function User() {
   return (
     <li className={`border-2 border-black flex justify-between flex-col`}>
       <div
@@ -10,7 +8,6 @@ export default function User({ user, index }) {
           <span className="cursor-pointer flex justify-center items-center w-6 h-6 font-bold bg-red-600 text-white rounded-full">
             X
           </span>
-          <h3>{user.name}</h3>
         </div>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -28,9 +25,7 @@ export default function User({ user, index }) {
         </svg>
       </div>
 
-      <div className="p-3">
-        <AlbumList user={user} />
-      </div>
+      <div className="p-3"></div>
     </li>
   );
 }
