@@ -1,10 +1,11 @@
 import { RiDeleteBin6Line } from "react-icons/ri";
-import { removeUser } from "../store/store";
+import { removeUser, useFetchAlbumsQuery } from "../store/store";
 import { useThunk } from "../hooks/use-thunks";
 import AddBtn from "./AddBtn";
 import AlbumList from "./AlbumList";
 import { GoChevronDown, GoChevronLeft } from "react-icons/go";
 import { useState } from "react";
+import Skeleton from "react-loading-skeleton";
 
 export default function User({ user }) {
   const [expanded, setExpanded] = useState(false);
@@ -21,6 +22,43 @@ export default function User({ user }) {
     setExpanded((prev) => !prev);
   };
 
+  const { data, Error, IsLoading } = useFetchAlbumsQuery(user);
+  console.log(data);
+
+  let content;
+
+  if (IsLoading) {
+    content = <Skeleton count={3} />;
+  } else if (Error) {
+    content = <div>Error loading Albums</div>;
+  } else {
+    content = data?.map((album) => {
+      return (
+        <div key={album.id} className="px-10">
+          <h2>Albums By {user.name} </h2>
+          <AlbumList key={album.id}>
+            {/* <AddBtn type="AddUser">+Add Album</AddBtn> */}
+            <li className="mb-2 border rounded w-full">
+              <div className="flex p-2 justify-between items-center cursor-pointer">
+                <div className="flex items-center gap-2">
+                  <AddBtn loading={isLoading} onclick={handleDelete}>
+                    <RiDeleteBin6Line />
+                  </AddBtn>
+
+                  {error && <div>Error deleting user.</div>}
+                  {album.title}
+                </div>
+                <div onClick={handleClick}>
+                  {expanded ? <GoChevronLeft /> : <GoChevronDown />}
+                </div>
+              </div>
+            </li>
+          </AlbumList>
+        </div>
+      );
+    });
+  }
+
   return (
     <li className="mb-2 border rounded">
       <div className="flex p-2 justify-between items-center cursor-pointer">
@@ -36,12 +74,7 @@ export default function User({ user }) {
           {expanded ? <GoChevronLeft /> : <GoChevronDown />}
         </div>
       </div>
-      {expanded && (
-        <AlbumList>
-          <h2>Albums By {user.name} </h2>
-          <AddBtn type="AddUser">+Add Album</AddBtn>
-        </AlbumList>
-      )}
+      {expanded && content}
     </li>
   );
 }

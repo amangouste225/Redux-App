@@ -1,10 +1,28 @@
 {
   "users": [
     {
-      "id": "7145",
-      "name": "Paulette Durgan"
+      "id": "1778",
+      "name": "Gregg Klocko"
+    },
+    {
+      "id": "9640",
+      "name": "Tyler Ondricka-Von"
+    },
+    {
+      "id": "4e6e",
+      "name": "Rosa Mayert"
+    },
+    {
+      "id": "5bfe",
+      "name": "Cornelius Shanahan"
     }
   ],
-  "album": [],
+  "albums": [
+    {
+      "id": 10,
+      "title": "Hiking Trip",
+      "userId": 1778
+    }
+  ],
   "photos": []
 }
