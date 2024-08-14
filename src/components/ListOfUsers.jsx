@@ -5,29 +5,38 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { IoIosArrowDown } from "react-icons/io";
 import Skeleton from "react-loading-skeleton";
 import { removeUser } from "../store/thunks/removeUser";
+import AddBtn from "./AddBtn";
+import { addUser } from "../store/thunks/addUser";
 
 export default function ListOfUsers() {
-  const [isUserLoading, setIsUSerLoading] = useState(false);
+  const [isLoadingUsers, setLoadingUsers] = useState(false);
+  const [loadingUsersError, setLoadingUsersError] = useState(null);
+  const [isCreatingUser, setIsCreatingUser] = useState(false);
+  const [creatingUserError, setCreatingUserError] = useState(null);
 
   const dispatch = useDispatch();
-  const { isLoading, data, error } = useSelector((state) => state.users);
-  console.log(data);
+  const { data } = useSelector((state) => state.users);
+
+  const handleAddUser = () => {
+    setIsCreatingUser(true);
+    dispatch(addUser())
+      .unwrap()
+      .catch((err) => setCreatingUserError(err))
+      .finally(() => setIsCreatingUser(false));
+  };
 
   useEffect(() => {
-    setIsUSerLoading(true);
+    setLoadingUsers(true);
     dispatch(fetchUsers())
       .unwrap()
-      .then(() => {
-        console.log("SUCCESS");
-      })
-      .catch(() => {
-        console.log("FAILED");
-      });
+      .catch((err) => setLoadingUsersError(err))
+      .finally(() => setLoadingUsers(false));
   }, [dispatch]);
 
-  if (isLoading) return <Skeleton className="h-10" count={data.length} />;
+  if (isLoadingUsers)
+    return <Skeleton className="h-10 my-2" count={data.length} />;
 
-  if (error) return <div> Error fetching data...</div>;
+  if (loadingUsersError) return <div> Error fetching data...</div>;
 
   const renderedList = data.map((user) => {
     return (
@@ -43,5 +52,20 @@ export default function ListOfUsers() {
     );
   });
 
-  return <ul className="space-y-3">{renderedList}</ul>;
+  return (
+    <div className="flex-col flex gap-5">
+      <div className="flex items-center justify-between">
+        <h2 className="font-bold">List of Users</h2>
+        {isCreatingUser ? (
+          "Creating User..."
+        ) : (
+          <AddBtn onclick={handleAddUser}>+ Add User</AddBtn>
+        )}
+
+        {creatingUserError && "Error creating User..."}
+      </div>
+
+      <ul className="space-y-3">{renderedList}</ul>
+    </div>
+  );
 }
