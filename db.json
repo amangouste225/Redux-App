@@ -1,14 +1,5 @@
 {
-  "users": [
-    {
-      "id": "62d8",
-      "name": "Miss Audrey Schowalter"
-    },
-    {
-      "id": "5b81",
-      "name": "Austin Dickens Sr."
-    }
-  ],
+  "users": [],
   "album": [],
   "photos": []
 }
