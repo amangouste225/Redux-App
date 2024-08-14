@@ -22,7 +22,7 @@ export default function User({ user }) {
   };
 
   return (
-    <li className="mb-2 border rounded" onClick={handleClick}>
+    <li className="mb-2 border rounded">
       <div className="flex p-2 justify-between items-center cursor-pointer">
         <div className="flex items-center gap-2">
           <AddBtn loading={isLoading} onclick={handleDelete}>
@@ -32,9 +32,16 @@ export default function User({ user }) {
           {error && <div>Error deleting user.</div>}
           {name}
         </div>
-        {expanded ? <GoChevronLeft /> : <GoChevronDown />}
+        <div onClick={handleClick}>
+          {expanded ? <GoChevronLeft /> : <GoChevronDown />}
+        </div>
       </div>
-      {expanded && <AlbumList user={user} />}
+      {expanded && (
+        <AlbumList>
+          <h2>Albums By {user.name} </h2>
+          <AddBtn type="AddUser">+Add Album</AddBtn>
+        </AlbumList>
+      )}
     </li>
   );
 }
