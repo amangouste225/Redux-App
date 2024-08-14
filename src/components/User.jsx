@@ -1,5 +1,9 @@
 import { RiDeleteBin6Line } from "react-icons/ri";
-import { removeUser, useFetchAlbumsQuery } from "../store/store";
+import {
+  removeUser,
+  useAddAlbumMutation,
+  useFetchAlbumsQuery,
+} from "../store/store";
 import { useThunk } from "../hooks/use-thunks";
 import AddBtn from "./AddBtn";
 import AlbumList from "./AlbumList";
@@ -22,8 +26,12 @@ export default function User({ user }) {
     setExpanded((prev) => !prev);
   };
 
+  const handleAddAlbum = () => {
+    addAlbum(user);
+  };
+
   const { data, Error, IsLoading } = useFetchAlbumsQuery(user);
-  console.log(data);
+  const [addAlbum, results] = useAddAlbumMutation();
 
   let content;
 
@@ -35,9 +43,7 @@ export default function User({ user }) {
     content = data?.map((album) => {
       return (
         <div key={album.id} className="px-10">
-          <h2>Albums By {user.name} </h2>
           <AlbumList key={album.id}>
-            {/* <AddBtn type="AddUser">+Add Album</AddBtn> */}
             <li className="mb-2 border rounded w-full">
               <div className="flex p-2 justify-between items-center cursor-pointer">
                 <div className="flex items-center gap-2">
@@ -48,9 +54,9 @@ export default function User({ user }) {
                   {error && <div>Error deleting user.</div>}
                   {album.title}
                 </div>
-                <div onClick={handleClick}>
+                {/* <div onClick={handleClick}>
                   {expanded ? <GoChevronLeft /> : <GoChevronDown />}
-                </div>
+                </div> */}
               </div>
             </li>
           </AlbumList>
@@ -74,6 +80,15 @@ export default function User({ user }) {
           {expanded ? <GoChevronLeft /> : <GoChevronDown />}
         </div>
       </div>
+      {expanded && (
+        <div className="flex items-center justify-between px-10 mb-3">
+          <h2>Albums By {user.name} </h2>
+
+          <AddBtn type="AddUser" onclick={handleAddAlbum}>
+            +Add Album
+          </AddBtn>
+        </div>
+      )}
       {expanded && content}
     </li>
   );

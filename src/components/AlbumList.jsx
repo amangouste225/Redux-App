@@ -1,7 +1,7 @@
 export default function AlbumList({ children }) {
   return (
-    <div className="flex justify-between items-center py-2  px-10">
+    <ul className="flex justify-between items-center px-10 space-y-2">
       {children}
-    </div>
+    </ul>
   );
 }
