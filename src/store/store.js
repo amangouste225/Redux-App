@@ -7,3 +7,5 @@ export default configureStore({
     users: userReducer,
   },
 });
+
+export * from "./thunks/fetchUser";

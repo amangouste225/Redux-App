@@ -1,5 +1,18 @@
 {
-  "users": [{ "id": 1, "name": "Myra" }],
+  "users": [
+    {
+      "id": "2e54",
+      "name": "Delia Flatley"
+    },
+    {
+      "id": "1a93",
+      "name": "Myron Crist"
+    },
+    {
+      "id": "71dd",
+      "name": "Toby Breitenberg"
+    }
+  ],
   "album": [],
   "photos": []
 }
